@@ -28,7 +28,7 @@ public class Postagem {
 	private String titulo;
 	
 	@NotNull(message = "Obrigatório")//permite espaços em branco
-	@Size(min = 5, max =100, message = "o Título deve ter no mínimo 10 e no máximo 1000 caracteres")
+	@Size(min = 5, max =1000, message = "o texto deve ter no mínimo 10 e no máximo 1000 caracteres")
 	private String texto;
 	
 	@UpdateTimestamp //vai receber do sistema a data e hr toda vez que fizer uma ação (ou creat para somente na criação).
