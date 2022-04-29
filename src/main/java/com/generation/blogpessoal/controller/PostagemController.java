@@ -1,10 +1,10 @@
 package com.generation.blogpessoal.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.blogpessoal.model.Postagem;
 import com.generation.blogpessoal.repository.PostagemRepository;
@@ -61,24 +62,49 @@ public class PostagemController {
 		
 	}
 		
-	@PutMapping ("/{id}")
-	public ResponseEntity<Postagem> putPostagem (@PathVariable long id, @RequestBody Postagem postagem){
-		Postagem postagemModificada = postagemRepository.findById(id).get();
-		BeanUtils.copyProperties(postagem, postagemModificada, "id");
-		return ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagemModificada));
+	@PutMapping
+	
+	/* TENTEI DE TODAS AS FORMAS FAZER ISSO FUNCIONAR COM O .MAP mas faltou isso aqui: findById(postagem.getId())
+	Apelei para o arquivo do professor mas pelo menos entendi o que faltava pois no exemplo abaixo estava pegando
+	.get () tudo que estava na pag */
+	
+	public ResponseEntity<Postagem> putPostagem (@Valid @RequestBody Postagem postagem){
+			return postagemRepository.findById(postagem.getId())
+			.map(resposta -> ResponseEntity.ok().body(postagemRepository.save(postagem)))
+			.orElse(ResponseEntity.notFound().build());
+
+			//Alterar método Put
 				
-				
+	}  		
+	
 		
-		//Alterar 
-	
-	}  
-	
 	@DeleteMapping ("/{id}")
 	@ResponseStatus (HttpStatus.NO_CONTENT)//Para trazer o status sem conteúdo
 	public void deletePostagem (@Valid @PathVariable Long id){
+		Optional<Postagem> postagem = postagemRepository.findById(id); //como se fosse map
+		
+		if (postagem.isEmpty()) //checagem se é vazio...
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND); //caso não encontre "joga" uma nova resposta	
+		
 		postagemRepository.deleteById(id); //chamo o método postagemRepository
 		
+		//Deletar método Delete
 	}	
+		
+		/*
+		 * OUTRA ALTERNATIVA PARA O DELETE
+		 * @DeleteMapping("/{id}")
+	public ResponseEntity<?> deletePostagem(@PathVariable Long id) {
+		
+		return postagemRepository.findById(id)
+				.map(resposta -> {
+					postagemRepository.deleteById(id);
+					return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+				})
+				.orElse(ResponseEntity.notFound().build());
+		 */
+		
+	
 	
 	
 	
