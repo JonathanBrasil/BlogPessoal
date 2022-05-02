@@ -7,12 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity //equivalente ao creat table (MySql)
 @Table(name = "tb_postagens") //para definir nome da tabela dentro do DB
@@ -34,8 +37,18 @@ public class Postagem {
 	@UpdateTimestamp //vai receber do sistema a data e hr toda vez que fizer uma ação (ou creat para somente na criação).
 	private LocalDateTime data;
 	
+	@ManyToOne //tipo de relacionamento da classe
+	@JsonIgnoreProperties("postagem")
+	private Tema tema; //CHAVE ESTRANGEIRA
+	
 	//métodos getters e setters:
 	
+	public Tema getTema() {
+		return tema;
+	}
+	public void setTema(Tema tema) {
+		this.tema = tema;
+	}
 	public Long getId() {
 		return id;
 	}
