@@ -22,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.blogpessoal.model.Postagem;
 import com.generation.blogpessoal.repository.PostagemRepository;
+import com.generation.blogpessoal.repository.TemaRepository;
 
 @RestController //1º para indicar que a classe é um controller
 @RequestMapping ("/postagem") //2º para indicar o endereço HTML
@@ -30,6 +31,9 @@ public class PostagemController {
 	
 	@Autowired //injeção de dependencia
 	private PostagemRepository postagemRepository;
+	
+	@Autowired //injeção de dependencia para a classe tema
+	private TemaRepository temaRepository;
 	
 	@GetMapping //entidade de respota HTTP -> vai ter collection do tipo List (irmã do ArrayList)
 	public ResponseEntity <List<Postagem>> getAll (){
@@ -56,9 +60,13 @@ public class PostagemController {
 	
 	@PostMapping
 	public ResponseEntity <Postagem> postPostagem (@Valid @RequestBody Postagem postagem){
-		return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
 		
-		//Insert
+		if (temaRepository.existsById(postagem.getTema().getId()))//Se existir, pega o tema depois postagem
+			return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
+			
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); //caso não retorna msg de erro
+		
+		//Criar postagem somente com tema existente. 
 		
 	}
 		
@@ -68,10 +76,21 @@ public class PostagemController {
 	Apelei para o arquivo do professor mas pelo menos entendi o que faltava pois no exemplo abaixo estava pegando
 	.get () tudo que estava na pag */
 	
+	//Tentar implementar a parte de atualizar somente os dados que precisarem...
+	
 	public ResponseEntity<Postagem> putPostagem (@Valid @RequestBody Postagem postagem){
-			return postagemRepository.findById(postagem.getId())
+		if (postagemRepository.existsById(postagem.getId())) {
+			
+			if (temaRepository.existsById(postagem.getTema().getId()))
+				return ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagem));
+		}
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		
+		
+			/* return 
 			.map(resposta -> ResponseEntity.ok().body(postagemRepository.save(postagem)))
-			.orElse(ResponseEntity.notFound().build());
+			.orElse(ResponseEntity.notFound().build()); */
 
 			//Alterar método Put
 				
