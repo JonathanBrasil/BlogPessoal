@@ -36,12 +36,18 @@ public class Postagem {
 	
 	@UpdateTimestamp //vai receber do sistema a data e hr toda vez que fizer uma ação (ou creat para somente na criação).
 	private LocalDateTime data;
+
+//CHAVES ESTRANGEIRAS	
 	
 	@ManyToOne //tipo de relacionamento da classe
 	@JsonIgnoreProperties("postagem")
 	private Tema tema; //CHAVE ESTRANGEIRA
 	
-	//métodos getters e setters:
+	@ManyToOne
+	@JsonIgnoreProperties("postagem")
+	private Usuario usuario;
+	
+//métodos getters e setters:
 	
 	public Tema getTema() {
 		return tema;
@@ -72,7 +78,15 @@ public class Postagem {
 	}
 	public void setData(LocalDateTime data) {
 		this.data = data;
+	}
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	} 
+	
+	
 	
 	//após criar os atributos, criar os getters e setters
 	//Source > creat 
