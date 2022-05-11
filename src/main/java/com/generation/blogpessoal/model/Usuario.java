@@ -48,6 +48,8 @@ public class Usuario {
 	private String senha;
 
 	private String foto;
+	
+	private String bio;
 
 	/**
 	 * CascadeType.REMOVE -> Ele propaga a operação de remoção de um objeto Pai para um 
@@ -108,6 +110,14 @@ public class Usuario {
 
 	public void setPostagem(List<Postagem> postagem) {
 		this.postagem = postagem;
+	}
+
+	public String getBio() {
+		return bio;
+	}
+
+	public void setBio(String bio) {
+		this.bio = bio;
 	}
 
 }

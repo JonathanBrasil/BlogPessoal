@@ -19,6 +19,8 @@ public class UsuarioLogin {
 	private String senha;
 
 	private String foto;
+	
+	private String bio;
 
 	private String token;
 
@@ -68,6 +70,14 @@ public class UsuarioLogin {
 
 	public void setFoto(String foto) {
 		this.foto = foto;
+	}
+
+	public String getBio() {
+		return bio;
+	}
+
+	public void setBio(String bio) {
+		this.bio = bio;
 	}	
 	
 }
