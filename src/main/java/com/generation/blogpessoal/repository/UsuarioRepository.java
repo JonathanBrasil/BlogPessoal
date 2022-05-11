@@ -7,6 +7,12 @@ import com.generation.blogpessoal.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+/*
+ * A camada repository é responsável por toda a conversa com o meu banco de dados,
+ * dentro dela eu tenho diversos métodos já existentes da biblioteca Jpa, findALl, FindAllByUser etc...
+ * posso criar métodos únicos... ex. findByUsuario
+*/
+
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 

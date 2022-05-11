@@ -27,11 +27,14 @@ public class Postagem {
 	private Long id ; //com L maisculo + recurso
 	
 	@NotBlank(message = "Obrigatório") //indicar o Notnull
-	@Size(min = 5, max =100, message = "o Título deve ter no mínimo 5 e no máximo 100 caracteres")//para definir tamanho min e/ou max 
+	@Size(max =255, message = "o Título deve ter no máximo 255 caracteres")//para definir tamanho min e/ou max 
 	private String titulo;
 	
+	@NotNull(message = "Obrigatório conter alguma mídia")
+	private String midia;
+	
 	@NotNull(message = "Obrigatório")//permite espaços em branco
-	@Size(min = 5, max =1000, message = "o texto deve ter no mínimo 10 e no máximo 1000 caracteres")
+	@Size(max =1000, message = "o texto deve ter no máximo 1000 caracteres")
 	private String texto;
 	
 	@UpdateTimestamp //vai receber do sistema a data e hr toda vez que fizer uma ação (ou creat para somente na criação).
@@ -84,6 +87,12 @@ public class Postagem {
 	}
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	public String getMidia() {
+		return midia;
+	}
+	public void setMidia(String midia) {
+		this.midia = midia;
 	} 
 	
 	
