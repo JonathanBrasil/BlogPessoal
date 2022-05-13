@@ -21,6 +21,7 @@ public class UsuarioLogin {
 	private String foto;
 	
 	private String bio;
+	
 
 	private String token;
 
@@ -78,6 +79,7 @@ public class UsuarioLogin {
 
 	public void setBio(String bio) {
 		this.bio = bio;
-	}	
-	
+	}
+ 
+
 }
