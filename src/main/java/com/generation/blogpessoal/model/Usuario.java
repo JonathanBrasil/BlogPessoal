@@ -31,15 +31,12 @@ public class Usuario {
 	@Email(message = "O atributo Usuário deve ser um email válido!")
 	private String usuario;
 
-	/**
+	/*
 	 * A anotação @Size está definida apenas com o valor min
 	 * porque ao criptografar a senha a mesma terá uma tamanho
 	 * muito maior (em numero de caracteres) do que a senha
 	 * não ciptografada.
-	 * 
-	 * Exemplo: admin123 -> 8 caracteres
-	 * admin123 criptografado -> 60 caracteres
-	 * 
+	
 	 * A anotação @NotBlank indica que o atributo não deve ser
 	 * nulo e/ou conter espaços em branco.
 	 */
@@ -51,7 +48,7 @@ public class Usuario {
 	
 	private String bio;
 
-	/**
+	/*
 	 * CascadeType.REMOVE -> Ele propaga a operação de remoção de um objeto Pai para um 
 	 * objeto Filho. 
 	 * Apenas quando remover a Entidade Usuario, também será removida todas as entidades 
@@ -63,6 +60,24 @@ public class Usuario {
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
+	
+	
+	
+	//Métodos construtores: 
+	//1
+	public Usuario(Long id, String nome, String usuario, String senha, String foto) {
+		this.id = id;
+		this.nome = nome;
+		this.usuario = usuario;
+		this.senha = senha;
+		this.foto = foto;
+	}
+	
+	//2
+	public Usuario() {	}
+	
+	
+	//GETTERS AND SETTERS 
 
 	public Long getId() {
 		return id;
